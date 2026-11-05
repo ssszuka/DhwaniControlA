@@ -93,10 +93,8 @@
     <string name="content_description_status_indicator">अनुमति की स्थिति सूचक</string>
     <string name="content_description_overlay_icon">अन्य ऐप्स के ऊपर दिखाने का आइकन</string>
 
-    <string name="menu_language">Language</string>
-    <string name="menu_about">About</string>
-    <string name="menu_report_issue">Report Bug / Feature Request</string>
-    <string name="dialog_language_title">Select Language</string>
+        <string name="menu_about">About</string>
+        <string name="dialog_language_title">Select Language</string>
     <string name="dialog_language_translate_link">Help translate this app</string>
     <string name="link_report_issue">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
     <string name="link_translate">https://translate.codeberg.org/projects/DhwaniControl</string>

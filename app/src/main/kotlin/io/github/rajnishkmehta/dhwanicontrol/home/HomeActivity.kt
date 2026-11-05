@@ -6,12 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.PopupMenu
-import android.widget.RadioButton
+import androidx.appcompat.widget.PopupMenu
+import com.google.android.material.radiobutton.MaterialRadioButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -51,21 +51,22 @@ class HomeActivity : AppCompatActivity() {
         binding.featureRecyclerView.adapter = adapter
         binding.homeMoreMenuButton.setOnClickListener { view ->
             val popup = PopupMenu(this, view)
-            popup.menu.add(0, 1, 0, getString(R.string.menu_language))
-            popup.menu.add(0, 2, 0, getString(R.string.menu_about))
-            popup.menu.add(0, 3, 0, getString(R.string.menu_report_issue))
+            popup.menu.add(0, 1, 0, getString(R.string.menu_about))
+            popup.menu.add(0, 2, 0, getString(R.string.menu_language))
+            popup.menu.add(0, 3, 0, getString(R.string.menu_report_bug))
+            popup.menu.add(0, 4, 0, getString(R.string.menu_feature_request))
 
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     1 -> {
-                        showLanguageDialog()
-                        true
-                    }
-                    2 -> {
                         startActivity(Intent(this, AppInfoActivity::class.java))
                         true
                     }
-                    3 -> {
+                    2 -> {
+                        showLanguageDialog()
+                        true
+                    }
+                    3, 4 -> {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_report_issue)))
                         try {
                             startActivity(intent)
@@ -111,10 +112,11 @@ class HomeActivity : AppCompatActivity() {
             val code = locale.toLanguageTag()
             val name = LocaleManager.getDisplayName(locale)
 
-            val radioButton = RadioButton(this).apply {
+            val radioButton = MaterialRadioButton(this).apply {
                 text = name
                 tag = locale
                 id = android.view.View.generateViewId()
+                setTextColor(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
                 layoutParams = RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
                     RadioGroup.LayoutParams.WRAP_CONTENT
@@ -143,13 +145,13 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_language_title)
             .setView(dialogView)
             .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val checkedId = radioGroup.checkedRadioButtonId
                 if (checkedId != -1) {
-                    val selectedRadio = dialogView.findViewById<RadioButton>(checkedId)
+                    val selectedRadio = dialogView.findViewById<MaterialRadioButton>(checkedId)
                     val selectedLocale = selectedRadio?.tag as? java.util.Locale
                     if (selectedLocale != null) {
                         LocaleManager.setLocale(selectedLocale)
