@@ -94,7 +94,4 @@
 
     <string name="content_description_status_indicator">权限状态指示器</string>
     <string name="content_description_overlay_icon">显示在其他应用的上层图标</string>
-    
-    <string name="link_report_issue">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
-    <string name="link_translate">https://translate.codeberg.org/projects/DhwaniControl</string>
 </resources>
