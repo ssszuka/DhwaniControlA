@@ -1,21 +1,20 @@
 package io.github.rajnishkmehta.dhwanicontrol.home
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-
-import android.widget.PopupMenu
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
-import android.widget.RadioGroup
+import android.widget.PopupMenu
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.rajnishkmehta.dhwanicontrol.Constants
 import io.github.rajnishkmehta.dhwanicontrol.R
@@ -23,6 +22,7 @@ import io.github.rajnishkmehta.dhwanicontrol.core.block.FeatureAvailabilityEvalu
 import io.github.rajnishkmehta.dhwanicontrol.core.block.FeatureBlockResult
 import io.github.rajnishkmehta.dhwanicontrol.core.feature.FeatureController
 import io.github.rajnishkmehta.dhwanicontrol.core.feature.FeatureRegistry
+import io.github.rajnishkmehta.dhwanicontrol.core.locale.LocaleManager
 import io.github.rajnishkmehta.dhwanicontrol.core.permission.PermissionPolicy
 import io.github.rajnishkmehta.dhwanicontrol.core.preferences.AppPreferences
 import io.github.rajnishkmehta.dhwanicontrol.databinding.ActivityHomeBinding
@@ -69,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_report_issue)))
                         try {
                             startActivity(intent)
-                        } catch (_: android.content.ActivityNotFoundException) {
+                        } catch (_: ActivityNotFoundException) {
                             Toast.makeText(this@HomeActivity, R.string.app_info_open_link_failed, Toast.LENGTH_SHORT).show()
                         }
                         true
@@ -96,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
 
     /**
      * Displays a dialog for selecting the application language.
-     * Allows the user to change the app's locale and updates it using [AppCompatDelegate].
+     * Allows the user to change the app's locale and updates it using [LocaleManager].
      * Also provides a link to contribute to translating the app.
      */
     private fun showLanguageDialog() {
@@ -104,23 +104,16 @@ class HomeActivity : AppCompatActivity() {
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.languageRadioGroup)
         val translateLink = dialogView.findViewById<TextView>(R.id.translateLinkText)
 
-        val languages = mapOf(
-            "en" to "English",
-            "hi" to "हिन्दी",
-            "zh-rCN" to "中文"
-        )
+        val locales = LocaleManager.getSupportedLocales(this)
+        val currentLocaleTag = LocaleManager.getCurrentLocale(this).toLanguageTag()
 
-        // Find current locale
-        val currentLocales = AppCompatDelegate.getApplicationLocales()
-        val systemLocales = resources.configuration.locales
-        val defaultLocale = if (!systemLocales.isEmpty) systemLocales[0].toLanguageTag() else "en"
-        val currentLangTag = if (!currentLocales.isEmpty) currentLocales[0]?.toLanguageTag() ?: defaultLocale else defaultLocale
-        val currentLang = if (currentLangTag.startsWith("zh")) "zh-rCN" else currentLangTag.split("-")[0]
+        locales.forEach { locale ->
+            val code = locale.toLanguageTag()
+            val name = LocaleManager.getDisplayName(locale)
 
-        languages.forEach { (code, name) ->
             val radioButton = RadioButton(this).apply {
                 text = name
-                tag = code
+                tag = locale
                 id = android.view.View.generateViewId()
                 layoutParams = RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
@@ -130,7 +123,17 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
             radioGroup.addView(radioButton)
-            if (code == currentLang || (currentLang == "en" && code == "en")) {
+
+            // Check if this is the current locale
+            val isCurrent = if (code.startsWith("zh") && currentLocaleTag.startsWith("zh")) {
+                true
+            } else if (code.split("-")[0] == currentLocaleTag.split("-")[0] && !code.startsWith("zh")) {
+                true
+            } else {
+                false
+            }
+
+            if (isCurrent) {
                 radioGroup.check(radioButton.id)
             }
         }
@@ -139,7 +142,7 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_translate)))
             try {
                 startActivity(intent)
-            } catch (_: android.content.ActivityNotFoundException) {
+            } catch (_: ActivityNotFoundException) {
                 Toast.makeText(this, R.string.app_info_open_link_failed, Toast.LENGTH_SHORT).show()
             }
         }
@@ -149,12 +152,12 @@ class HomeActivity : AppCompatActivity() {
             .setView(dialogView)
             .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val checkedId = radioGroup.checkedRadioButtonId
-                val selectedRadio = dialogView.findViewById<RadioButton>(checkedId)
-                val selectedLang = selectedRadio?.tag as? String
-                if (selectedLang != null) {
-                    val localeTag = if (selectedLang == "zh-rCN") "zh-CN" else selectedLang
-                    val appLocale = LocaleListCompat.forLanguageTags(localeTag)
-                    AppCompatDelegate.setApplicationLocales(appLocale)
+                if (checkedId != -1) {
+                    val selectedRadio = dialogView.findViewById<RadioButton>(checkedId)
+                    val selectedLocale = selectedRadio?.tag as? java.util.Locale
+                    if (selectedLocale != null) {
+                        LocaleManager.setLocale(selectedLocale)
+                    }
                 }
                 dialog.dismiss()
             }
