@@ -56,7 +56,7 @@ class AppInfoActivity : AppCompatActivity() {
         // avatarExecutor.shutdownNow()
         super.onDestroy()
     }
-    
+
     /*
     private fun loadAvatar() {
         val savedAvatar = avatarStore.loadSavedBitmap()
