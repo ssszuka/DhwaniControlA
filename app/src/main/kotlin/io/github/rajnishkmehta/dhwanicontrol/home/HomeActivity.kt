@@ -2,21 +2,27 @@ package io.github.rajnishkmehta.dhwanicontrol.home
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.appcompat.widget.PopupMenu
-import com.google.android.material.radiobutton.MaterialRadioButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.radiobutton.MaterialRadioButton
 import io.github.rajnishkmehta.dhwanicontrol.Constants
+import java.util.Locale
 import io.github.rajnishkmehta.dhwanicontrol.R
 import io.github.rajnishkmehta.dhwanicontrol.core.block.FeatureAvailabilityEvaluator
 import io.github.rajnishkmehta.dhwanicontrol.core.block.FeatureBlockResult
@@ -55,15 +61,15 @@ class HomeActivity : AppCompatActivity() {
             popup.menu.add(0, 2, 0, getString(R.string.menu_language))
 
             // Add external link icons to browser links
-            val linkIcon = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
+            val linkIcon = ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
                 setBounds(0, 0, 40, 40)
             }
 
-            fun addIconToText(text: String, icon: android.graphics.drawable.Drawable?): CharSequence {
+            fun addIconToText(text: String, icon: Drawable?): CharSequence {
                 if (icon == null) return text
-                val spannable = android.text.SpannableString("$text  ")
-                val imageSpan = android.text.style.ImageSpan(icon, android.text.style.ImageSpan.ALIGN_BASELINE)
-                spannable.setSpan(imageSpan, text.length + 1, text.length + 2, android.text.Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                val spannable = SpannableString("$text  ")
+                val imageSpan = ImageSpan(icon, ImageSpan.ALIGN_BASELINE)
+                spannable.setSpan(imageSpan, text.length + 1, text.length + 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
                 return spannable
             }
 
@@ -127,8 +133,8 @@ class HomeActivity : AppCompatActivity() {
         val systemRadioButton = MaterialRadioButton(this).apply {
             text = getString(R.string.menu_system_default)
             tag = null
-            id = android.view.View.generateViewId()
-            setTextColor(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
+            id = View.generateViewId()
+            setTextColor(ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
             layoutParams = RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.MATCH_PARENT,
                 RadioGroup.LayoutParams.WRAP_CONTENT
@@ -148,8 +154,8 @@ class HomeActivity : AppCompatActivity() {
             val radioButton = MaterialRadioButton(this).apply {
                 text = name
                 tag = locale
-                id = android.view.View.generateViewId()
-                setTextColor(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
+                id = View.generateViewId()
+                setTextColor(ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
                 layoutParams = RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
                     RadioGroup.LayoutParams.WRAP_CONTENT
@@ -170,13 +176,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-        val linkIcon = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
+        val linkIcon = ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
             setBounds(0, 0, 40, 40)
-            setTint(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorAccent))
+            setTint(ContextCompat.getColor(this@HomeActivity, R.color.colorAccent))
         }
-        val spannableTranslate = android.text.SpannableString(getString(R.string.dialog_language_translate_link) + "  ")
-        val translateImageSpan = android.text.style.ImageSpan(linkIcon!!, android.text.style.ImageSpan.ALIGN_BASELINE)
-        spannableTranslate.setSpan(translateImageSpan, spannableTranslate.length - 1, spannableTranslate.length, android.text.Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        val spannableTranslate = SpannableString(getString(R.string.dialog_language_translate_link) + "  ")
+        val translateImageSpan = ImageSpan(linkIcon!!, ImageSpan.ALIGN_BASELINE)
+        spannableTranslate.setSpan(translateImageSpan, spannableTranslate.length - 1, spannableTranslate.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
         translateLink.text = spannableTranslate
 
         translateLink.setOnClickListener {
@@ -196,7 +202,7 @@ class HomeActivity : AppCompatActivity() {
                 val checkedId = radioGroup.checkedRadioButtonId
                 if (checkedId != -1) {
                     val selectedRadio = dialogView.findViewById<MaterialRadioButton>(checkedId)
-                    val selectedLocale = selectedRadio?.tag as? java.util.Locale
+                    val selectedLocale = selectedRadio?.tag as? Locale
                     if (selectedLocale != null) {
                         LocaleManager.setLocale(selectedLocale)
                     } else {

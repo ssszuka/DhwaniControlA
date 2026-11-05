@@ -1,8 +1,11 @@
 package io.github.rajnishkmehta.dhwanicontrol.core.locale
 
 import android.content.Context
+import android.app.LocaleConfig
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import org.xmlpull.v1.XmlPullParser
 import java.util.Locale
 
 object LocaleManager {
@@ -13,9 +16,9 @@ object LocaleManager {
      * locales_config.xml at build time based on res/values-* folders.
      */
     fun getSupportedLocales(context: Context): List<Locale> {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            val localeConfig = android.app.LocaleConfig(context)
-            if (localeConfig.status == android.app.LocaleConfig.STATUS_SUCCESS) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val localeConfig = LocaleConfig(context)
+            if (localeConfig.status == LocaleConfig.STATUS_SUCCESS) {
                 val supportedLocales = localeConfig.supportedLocales
                 if (supportedLocales != null) {
                     val locales = mutableListOf<Locale>()
@@ -33,8 +36,8 @@ object LocaleManager {
             if (resId != 0) {
                 val parser = context.resources.getXml(resId)
                 var eventType = parser.eventType
-                while (eventType != org.xmlpull.v1.XmlPullParser.END_DOCUMENT) {
-                    if (eventType == org.xmlpull.v1.XmlPullParser.START_TAG && parser.name == "locale") {
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if (eventType == XmlPullParser.START_TAG && parser.name == "locale") {
                         val lang = parser.getAttributeValue("http://schemas.android.com/apk/res/android", "name")
                         if (lang != null) {
                             locales.add(Locale.forLanguageTag(lang))
@@ -43,16 +46,8 @@ object LocaleManager {
                     eventType = parser.next()
                 }
             }
- else {
-                locales.add(Locale.forLanguageTag("en"))
-                locales.add(Locale.forLanguageTag("hi"))
-                locales.add(Locale.forLanguageTag("zh-CN"))
-            }
-        }
- catch (e: Exception) {
-            locales.add(Locale.forLanguageTag("en"))
-            locales.add(Locale.forLanguageTag("hi"))
-            locales.add(Locale.forLanguageTag("zh-CN"))
+        } catch (e: Exception) {
+            // Error occurred
         }
         return locales.distinctBy { it.toLanguageTag() }
     }
