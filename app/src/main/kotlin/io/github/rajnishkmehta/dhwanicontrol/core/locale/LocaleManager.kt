@@ -11,12 +11,9 @@ object LocaleManager {
      * Retrieves the supported locales for the application.
      * With AGP generateLocaleConfig = true, it automatically generates
      * locales_config.xml at build time based on res/values-* folders.
-     * We don't read the XML directly as it might be unstable. We fallback to
-     * building the list from available resources configurations or manual parsing if necessary.
      */
     fun getSupportedLocales(context: Context): List<Locale> {
         val locales = mutableListOf<Locale>()
-        locales.add(Locale.ENGLISH) // Always add english as fallback
 
         try {
             val resId = context.resources.getIdentifier("locales_config", "xml", context.packageName)
@@ -33,14 +30,11 @@ object LocaleManager {
                     eventType = parser.next()
                 }
             } else {
-                // Hardcode fallbacks if generated XML is not available dynamically
-                locales.add(Locale.forLanguageTag("hi"))
-                locales.add(Locale.forLanguageTag("zh-rCN"))
+                // If generateLocaleConfig failed or is not available.
+                locales.add(Locale.ENGLISH)
             }
         } catch (e: Exception) {
-            // Fallback
-            locales.add(Locale.forLanguageTag("hi"))
-            locales.add(Locale.forLanguageTag("zh-rCN"))
+            locales.add(Locale.ENGLISH)
         }
 
         return locales.distinctBy { it.toLanguageTag() }

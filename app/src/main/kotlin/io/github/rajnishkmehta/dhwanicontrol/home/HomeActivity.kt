@@ -125,13 +125,9 @@ class HomeActivity : AppCompatActivity() {
             radioGroup.addView(radioButton)
 
             // Check if this is the current locale
-            val isCurrent = if (code.startsWith("zh") && currentLocaleTag.startsWith("zh")) {
-                true
-            } else if (code.split("-")[0] == currentLocaleTag.split("-")[0] && !code.startsWith("zh")) {
-                true
-            } else {
-                false
-            }
+            val isCurrent = code == currentLocaleTag ||
+                            (code.substringBefore("-") == currentLocaleTag.substringBefore("-") &&
+                             code.substringAfter("-", "") == currentLocaleTag.substringAfter("-", ""))
 
             if (isCurrent) {
                 radioGroup.check(radioButton.id)
