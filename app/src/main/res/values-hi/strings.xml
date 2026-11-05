@@ -57,13 +57,13 @@
     <string name="app_info_github_repo_button">GitHub रिपॉज़िटरी</string>
     <string name="app_info_gitlab_repo_button">GitLab रिपॉज़िटरी</string>
     <string name="app_info_linkedin_button">LinkedIn</string>
-    <string name="app_info_gravatar_button">Gravatar</string>
+    <string name="app_info_instagram_button">Instagram</string>
     <string name="app_info_link_x">https://x.com/RajnishKMehta</string>
     <string name="app_info_link_github">https://github.com/RajnishKMehta</string>
     <string name="app_info_link_github_repo">https://github.com/RajnishKMehta/DhwaniControl</string>
     <string name="app_info_link_gitlab_repo">https://gitlab.com/RajnishKMehta/DhwaniControl</string>
     <string name="app_info_link_linkedin">https://www.linkedin.com/in/RajnishKMehta</string>
-    <string name="app_info_link_gravatar">https://gravatar.com/rajnishkmehta</string>
+    <string name="app_info_link_instagram">https://www.instagram.com/rajnishkmehta</string>
     <string name="floating_config_title">फ़्लोटिंग बटन की सेटिंग्स</string>
     <string name="floating_config_subtitle">अपने फ़्लोटिंग वॉल्यूम बटन के आइकन और रंग को अपनी पसंद के अनुसार बदलें।</string>
     <string name="floating_config_choose_icon">आइकन चुनें</string>
@@ -92,4 +92,12 @@
     <string name="notification_channel_description_floating">फ़्लोटिंग बटन सक्रिय रखता है</string>
     <string name="content_description_status_indicator">अनुमति की स्थिति सूचक</string>
     <string name="content_description_overlay_icon">अन्य ऐप्स के ऊपर दिखाने का आइकन</string>
+
+    <string name="menu_language">Language</string>
+    <string name="menu_about">About</string>
+    <string name="menu_report_issue">Report Bug / Feature Request</string>
+    <string name="dialog_language_title">Select Language</string>
+    <string name="dialog_language_translate_link">Help translate this app</string>
+    <string name="link_report_issue">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
+    <string name="link_translate">https://translate.codeberg.org/projects/DhwaniControl</string>
 </resources>

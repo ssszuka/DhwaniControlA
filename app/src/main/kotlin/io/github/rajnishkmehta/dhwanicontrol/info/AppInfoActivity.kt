@@ -42,8 +42,8 @@ class AppInfoActivity : AppCompatActivity() {
             openLink(getString(R.string.app_info_link_linkedin))
         }
 
-        binding.openGravatarButton.setOnClickListener {
-            openLink(getString(R.string.app_info_link_gravatar))
+        binding.openInstagramButton.setOnClickListener {
+            openLink(getString(R.string.app_info_link_instagram))
         }
 
         binding.appInfoHelpButton.setOnClickListener {
@@ -56,51 +56,6 @@ class AppInfoActivity : AppCompatActivity() {
         // avatarExecutor.shutdownNow()
         super.onDestroy()
     }
-
-    /*
-    private fun loadAvatar() {
-        val savedAvatar = avatarStore.loadSavedBitmap()
-
-        if (savedAvatar != null) {
-            binding.avatarImage.setImageBitmap(savedAvatar)
-            binding.avatarStatusText.visibility = View.GONE
-        } else {
-            binding.avatarImage.setImageResource(android.R.drawable.sym_def_app_icon)
-            binding.avatarStatusText.visibility = View.VISIBLE
-            binding.avatarStatusText.setText(R.string.app_info_avatar_loading)
-        }
-
-        refreshAvatarInBackground()
-    }
-
-    private fun refreshAvatarInBackground() {
-        val avatarUrl = getString(R.string.app_info_avatar_url)
-        avatarExecutor.execute {
-            val result = avatarStore.refreshAvatar(avatarUrl)
-
-            mainHandler.post {
-                if (isClosed || isFinishing || isDestroyed) {
-                    return@post
-                }
-
-                result.fold(
-                    onSuccess = { bitmap ->
-                        binding.avatarImage.setImageBitmap(bitmap)
-                        binding.avatarStatusText.visibility = View.GONE
-                    },
-                    onFailure = {
-                        if (binding.avatarImage.drawable == null) {
-                            binding.avatarStatusText.visibility = View.VISIBLE
-                            binding.avatarStatusText.setText(R.string.app_info_avatar_failed)
-                        } else {
-                            binding.avatarStatusText.visibility = View.GONE
-                        }
-                    }
-                )
-            }
-        }
-    }
-    */
 
     private fun openLink(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

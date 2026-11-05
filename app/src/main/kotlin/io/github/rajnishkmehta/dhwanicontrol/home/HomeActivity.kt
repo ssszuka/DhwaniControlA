@@ -6,6 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
+import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.widget.RadioGroup
+import android.widget.RadioButton
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.rajnishkmehta.dhwanicontrol.Constants
 import io.github.rajnishkmehta.dhwanicontrol.R
@@ -39,8 +49,31 @@ class HomeActivity : AppCompatActivity() {
 
         binding.featureRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.featureRecyclerView.adapter = adapter
-        binding.homeInfoButton.setOnClickListener {
-            startActivity(Intent(this, AppInfoActivity::class.java))
+        binding.homeMoreMenuButton.setOnClickListener { view ->
+            val popup = PopupMenu(this, view)
+            popup.menu.add(0, 1, 0, getString(R.string.menu_language))
+            popup.menu.add(0, 2, 0, getString(R.string.menu_about))
+            popup.menu.add(0, 3, 0, getString(R.string.menu_report_issue))
+
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    1 -> {
+                        showLanguageDialog()
+                        true
+                    }
+                    2 -> {
+                        startActivity(Intent(this, AppInfoActivity::class.java))
+                        true
+                    }
+                    3 -> {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_report_issue)))
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
         }
         binding.homeHelpButton.setOnClickListener {
             openHelpLink()
@@ -55,6 +88,65 @@ class HomeActivity : AppCompatActivity() {
         }.onFailure {
             Toast.makeText(this, R.string.app_info_open_link_failed, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showLanguageDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_language_selection, null)
+        val radioGroup = dialogView.findViewById<RadioGroup>(R.id.languageRadioGroup)
+        val translateLink = dialogView.findViewById<TextView>(R.id.translateLinkText)
+
+        val languages = mapOf(
+            "en" to "English",
+            "hi" to "हिन्दी",
+            "zh-rCN" to "中文"
+        )
+
+        // Find current locale
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        val currentLangTag = if (currentLocales.isEmpty) "en" else currentLocales[0]?.toLanguageTag() ?: "en"
+        val currentLang = if (currentLangTag.startsWith("zh")) "zh-rCN" else currentLangTag.split("-")[0]
+
+        languages.forEach { (code, name) ->
+            val radioButton = RadioButton(this).apply {
+                text = name
+                tag = code
+                id = android.view.View.generateViewId()
+                layoutParams = RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.MATCH_PARENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 8, 0, 8)
+                }
+            }
+            radioGroup.addView(radioButton)
+            if (code == currentLang || (currentLang == "en" && code == "en")) {
+                radioGroup.check(radioButton.id)
+            }
+        }
+
+        translateLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_translate)))
+            startActivity(intent)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_language_title)
+            .setView(dialogView)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                val checkedId = radioGroup.checkedRadioButtonId
+                val selectedRadio = dialogView.findViewById<RadioButton>(checkedId)
+                val selectedLang = selectedRadio?.tag as? String
+                if (selectedLang != null) {
+                    val localeTag = if (selectedLang == "zh-rCN") "zh-CN" else selectedLang
+                    val appLocale = LocaleListCompat.forLanguageTags(localeTag)
+                    AppCompatDelegate.setApplicationLocales(appLocale)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun synchronizeFeatures() {

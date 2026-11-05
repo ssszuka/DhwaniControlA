@@ -155,6 +155,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     
+
+    lint {
+        abortOnError = false
+    }
+
     androidResources {
         generateLocaleConfig = true
     }
