@@ -34,7 +34,8 @@
             android:text="@string/home_need_help"
             app:icon="@drawable/ic_help_placeholder"
             app:iconSize="20dp"
-            app:iconTint="@color/colorAccent" />
+            app:iconTint="@color/colorAccent"
+            android:contentDescription="@string/app_info_title" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/homeMoreMenuButton"
@@ -43,7 +44,8 @@
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_more_vert"
             app:iconSize="24dp"
-            app:iconTint="@color/colorAccent" />
+            app:iconTint="@color/colorAccent"
+            android:contentDescription="@string/app_info_title" />
     </LinearLayout>
 
     <TextView

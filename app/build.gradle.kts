@@ -156,9 +156,12 @@ android {
     }
     
 
+
     lint {
-        abortOnError = false
+        abortOnError = true
+        disable += setOf("MissingTranslation")
     }
+
 
     androidResources {
         generateLocaleConfig = true

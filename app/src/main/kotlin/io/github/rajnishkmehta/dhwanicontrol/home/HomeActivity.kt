@@ -67,7 +67,11 @@ class HomeActivity : AppCompatActivity() {
                     }
                     3 -> {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_report_issue)))
-                        startActivity(intent)
+                        try {
+                            startActivity(intent)
+                        } catch (_: android.content.ActivityNotFoundException) {
+                            Toast.makeText(this@HomeActivity, R.string.app_info_open_link_failed, Toast.LENGTH_SHORT).show()
+                        }
                         true
                     }
                     else -> false
@@ -90,6 +94,11 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Displays a dialog for selecting the application language.
+     * Allows the user to change the app's locale and updates it using [AppCompatDelegate].
+     * Also provides a link to contribute to translating the app.
+     */
     private fun showLanguageDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_language_selection, null)
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.languageRadioGroup)
@@ -103,7 +112,9 @@ class HomeActivity : AppCompatActivity() {
 
         // Find current locale
         val currentLocales = AppCompatDelegate.getApplicationLocales()
-        val currentLangTag = if (currentLocales.isEmpty) "en" else currentLocales[0]?.toLanguageTag() ?: "en"
+        val systemLocales = resources.configuration.locales
+        val defaultLocale = if (!systemLocales.isEmpty) systemLocales[0].toLanguageTag() else "en"
+        val currentLangTag = if (!currentLocales.isEmpty) currentLocales[0]?.toLanguageTag() ?: defaultLocale else defaultLocale
         val currentLang = if (currentLangTag.startsWith("zh")) "zh-rCN" else currentLangTag.split("-")[0]
 
         languages.forEach { (code, name) ->
@@ -126,7 +137,11 @@ class HomeActivity : AppCompatActivity() {
 
         translateLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_translate)))
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (_: android.content.ActivityNotFoundException) {
+                Toast.makeText(this, R.string.app_info_open_link_failed, Toast.LENGTH_SHORT).show()
+            }
         }
 
         AlertDialog.Builder(this)

@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">DhwaniControl</string>
+    <string name="app_name" translatable="false">DhwaniControl</string>
 
-    <string name="home_title">DhwaniControl</string>
+    <string name="home_title" translatable="false">DhwaniControl</string>
     <string name="home_subtitle">Choose a feature below. Each feature can be configured independently.</string>
 
     <string name="feature_quick_tile_title">Quick Settings Tile</string>
@@ -66,13 +66,13 @@
     <string name="app_info_github_repo_button">GitHub Repo</string>
     <string name="app_info_gitlab_repo_button">GitLab Repo</string>
     <string name="app_info_linkedin_button">LinkedIn</string>
-    <string name="app_info_instagram_button">Instagram</string>
+    <string name="app_info_instagram_button" translatable="false">Instagram</string>
     <string name="app_info_link_x">https://x.com/RajnishKMehta</string>
     <string name="app_info_link_github">https://github.com/RajnishKMehta</string>
     <string name="app_info_link_github_repo">https://github.com/RajnishKMehta/DhwaniControl</string>
     <string name="app_info_link_gitlab_repo">https://gitlab.com/RajnishKMehta/DhwaniControl</string>
     <string name="app_info_link_linkedin">https://www.linkedin.com/in/RajnishKMehta</string>
-    <string name="app_info_link_instagram">https://www.instagram.com/rajnishkmehta</string>
+    <string name="app_info_link_instagram" translatable="false">https://www.instagram.com/rajnishkmehta</string>
 
     <string name="floating_config_title">Configure Floating Button</string>
     <string name="floating_config_subtitle">Customize the icon and color of your floating volume button.</string>
@@ -110,11 +110,11 @@
     <string name="content_description_status_indicator">Permission status indicator</string>
     <string name="content_description_overlay_icon">Draw-over-apps icon</string>
 
-    <string name="menu_language">Language</string>
-    <string name="menu_about">About</string>
-    <string name="menu_report_issue">Report Bug / Feature Request</string>
-    <string name="dialog_language_title">Select Language</string>
-    <string name="dialog_language_translate_link">Help translate this app</string>
-    <string name="link_report_issue">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
-    <string name="link_translate">https://translate.codeberg.org/projects/DhwaniControl</string>
+    <string name="menu_language" translatable="false">Language</string>
+    <string name="menu_about" translatable="false">About</string>
+    <string name="menu_report_issue" translatable="false">Report Bug / Feature Request</string>
+    <string name="dialog_language_title" translatable="false">Select Language</string>
+    <string name="dialog_language_translate_link" translatable="false">Help translate this app</string>
+    <string name="link_report_issue" translatable="false">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
+    <string name="link_translate" translatable="false">https://translate.codeberg.org/projects/DhwaniControl</string>
 </resources>
