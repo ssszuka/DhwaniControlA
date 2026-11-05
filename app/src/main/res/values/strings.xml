@@ -110,12 +110,12 @@
     <string name="content_description_status_indicator">Permission status indicator</string>
     <string name="content_description_overlay_icon">Draw-over-apps icon</string>
 
-    <string name="menu_language" translatable="false">Change Language</string>
-    <string name="menu_about" translatable="false">About</string>
-    <string name="menu_report_bug" translatable="false">Report Bug</string>
-    <string name="menu_feature_request" translatable="false">Feature Request</string>
-    <string name="dialog_language_title" translatable="false">Select Language</string>
-    <string name="dialog_language_translate_link" translatable="false">Help translate this app</string>
+    <string name="menu_language">Change Language</string>
+    <string name="menu_about">About</string>
+    <string name="menu_report_bug">Report Bug</string>
+    <string name="menu_feature_request">Feature Request</string>
+    <string name="dialog_language_title">Select Language</string>
+    <string name="dialog_language_translate_link">Help translate this app</string>
     <string name="link_report_issue" translatable="false">https://github.com/RajnishKMehta/DhwaniControl/issues/new/choose</string>
     <string name="link_translate" translatable="false">https://translate.codeberg.org/projects/DhwaniControl</string>
     <string name="menu_system_default" translatable="false">System Default</string>
