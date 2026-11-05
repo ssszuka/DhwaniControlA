@@ -53,8 +53,23 @@ class HomeActivity : AppCompatActivity() {
             val popup = PopupMenu(this, view)
             popup.menu.add(0, 1, 0, getString(R.string.menu_about))
             popup.menu.add(0, 2, 0, getString(R.string.menu_language))
-            popup.menu.add(0, 3, 0, getString(R.string.menu_report_bug))
-            popup.menu.add(0, 4, 0, getString(R.string.menu_feature_request))
+
+            // Add external link icons to browser links
+            val linkIcon = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
+                setBounds(0, 0, 40, 40)
+            }
+
+            fun addIconToText(text: String, icon: android.graphics.drawable.Drawable?): CharSequence {
+                if (icon == null) return text
+                val spannable = android.text.SpannableString("$text  ")
+                val imageSpan = android.text.style.ImageSpan(icon, android.text.style.ImageSpan.ALIGN_BASELINE)
+                spannable.setSpan(imageSpan, text.length + 1, text.length + 2, android.text.Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                return spannable
+            }
+
+            val reportBugItem = popup.menu.add(0, 3, 0, addIconToText(getString(R.string.menu_report_bug), linkIcon))
+            val featureRequestItem = popup.menu.add(0, 4, 0, addIconToText(getString(R.string.menu_feature_request), linkIcon))
+
 
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -136,6 +151,14 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+
+        val linkIcon = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            setTint(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorAccent))
+        }
+        translateLink.setCompoundDrawables(null, null, linkIcon, null)
+        translateLink.compoundDrawablePadding = 8
+
         translateLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_translate)))
             try {
@@ -147,6 +170,7 @@ class HomeActivity : AppCompatActivity() {
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_language_title)
+            .setCancelable(false)
             .setView(dialogView)
             .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val checkedId = radioGroup.checkedRadioButtonId
