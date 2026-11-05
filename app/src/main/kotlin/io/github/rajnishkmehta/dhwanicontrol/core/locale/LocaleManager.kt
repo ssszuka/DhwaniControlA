@@ -32,7 +32,7 @@ object LocaleManager {
 
         val locales = mutableListOf<Locale>()
         try {
-            val resId = context.resources.getIdentifier("locales_config", "xml", context.packageName)
+            val resId = context.resources.getIdentifier("_generated_res_locale_config", "xml", context.packageName)
             if (resId != 0) {
                 val parser = context.resources.getXml(resId)
                 var eventType = parser.eventType
