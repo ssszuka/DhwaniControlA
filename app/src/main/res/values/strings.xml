@@ -61,17 +61,17 @@
     <string name="app_info_username">@RajnishKMehta</string>
     <string name="app_info_avatar_description">Developer avatar</string>
     <string name="app_info_open_link_failed">No app can open this link.</string>
-    <string name="app_info_x_button">Twitter / X</string>
-    <string name="app_info_github_button">GitHub Profile</string>
-    <string name="app_info_github_repo_button">GitHub Repo</string>
-    <string name="app_info_gitlab_repo_button">GitLab Repo</string>
-    <string name="app_info_linkedin_button">LinkedIn</string>
+    <string name="app_info_x_button" translatable="false">Twitter / X</string>
+    <string name="app_info_github_button" translatable="false">GitHub Profile</string>
+    <string name="app_info_github_repo_button" translatable="false">GitHub Repo</string>
+    <string name="app_info_gitlab_repo_button" translatable="false">GitLab Repo</string>
+    <string name="app_info_linkedin_button" translatable="false">LinkedIn</string>
     <string name="app_info_instagram_button" translatable="false">Instagram</string>
-    <string name="app_info_link_x">https://x.com/RajnishKMehta</string>
-    <string name="app_info_link_github">https://github.com/RajnishKMehta</string>
-    <string name="app_info_link_github_repo">https://github.com/RajnishKMehta/DhwaniControl</string>
-    <string name="app_info_link_gitlab_repo">https://gitlab.com/RajnishKMehta/DhwaniControl</string>
-    <string name="app_info_link_linkedin">https://www.linkedin.com/in/RajnishKMehta</string>
+    <string name="app_info_link_x" translatable="false">https://x.com/RajnishKMehta</string>
+    <string name="app_info_link_github" translatable="false">https://github.com/RajnishKMehta</string>
+    <string name="app_info_link_github_repo" translatable="false">https://github.com/RajnishKMehta/DhwaniControl</string>
+    <string name="app_info_link_gitlab_repo" translatable="false">https://gitlab.com/RajnishKMehta/DhwaniControl</string>
+    <string name="app_info_link_linkedin" translatable="false">https://www.linkedin.com/in/RajnishKMehta</string>
     <string name="app_info_link_instagram" translatable="false">https://www.instagram.com/rajnishkmehta</string>
 
     <string name="floating_config_title">Configure Floating Button</string>
@@ -95,10 +95,10 @@
 
     <string name="home_need_help">Need Help</string>
     <string name="app_info_need_help">Need Help</string>
-    <string name="app_info_help_url">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/user-guide.md</string>
-    <string name="edge_swipe_help_url">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/edge-swipe.md</string>
-    <string name="floating_button_help_url">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/floating-button.md</string>
-    <string name="quick_tile_help_url">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/quick-settings-tile.md</string>
+    <string name="app_info_help_url" translatable="false">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/user-guide.md</string>
+    <string name="edge_swipe_help_url" translatable="false">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/edge-swipe.md</string>
+    <string name="floating_button_help_url" translatable="false">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/floating-button.md</string>
+    <string name="quick_tile_help_url" translatable="false">https://gitlab.com/RajnishKMehta/DhwaniControl/-/blob/main/docs/quick-settings-tile.md</string>
 
     <string name="notification_channel_name">DhwaniControl edge swipe service</string>
     <string name="notification_channel_description">Keeps edge swipe detection active</string>
