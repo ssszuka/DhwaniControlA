@@ -13,8 +13,21 @@ object LocaleManager {
      * locales_config.xml at build time based on res/values-* folders.
      */
     fun getSupportedLocales(context: Context): List<Locale> {
-        val locales = mutableListOf<Locale>()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            val localeConfig = android.app.LocaleConfig(context)
+            if (localeConfig.status == android.app.LocaleConfig.STATUS_SUCCESS) {
+                val supportedLocales = localeConfig.supportedLocales
+                if (supportedLocales != null) {
+                    val locales = mutableListOf<Locale>()
+                    for (i in 0 until supportedLocales.size()) {
+                        locales.add(supportedLocales.get(i))
+                    }
+                    return locales.distinctBy { it.toLanguageTag() }
+                }
+            }
+        }
 
+        val locales = mutableListOf<Locale>()
         try {
             val resId = context.resources.getIdentifier("locales_config", "xml", context.packageName)
             if (resId != 0) {
@@ -29,14 +42,18 @@ object LocaleManager {
                     }
                     eventType = parser.next()
                 }
-            } else {
-                // If generateLocaleConfig failed or is not available.
-                locales.add(Locale.ENGLISH)
             }
-        } catch (e: Exception) {
-            locales.add(Locale.ENGLISH)
+ else {
+                locales.add(Locale.forLanguageTag("en"))
+                locales.add(Locale.forLanguageTag("hi"))
+                locales.add(Locale.forLanguageTag("zh-CN"))
+            }
         }
-
+ catch (e: Exception) {
+            locales.add(Locale.forLanguageTag("en"))
+            locales.add(Locale.forLanguageTag("hi"))
+            locales.add(Locale.forLanguageTag("zh-CN"))
+        }
         return locales.distinctBy { it.toLanguageTag() }
     }
 
@@ -51,6 +68,10 @@ object LocaleManager {
     fun setLocale(locale: Locale) {
         val localeList = LocaleListCompat.create(locale)
         AppCompatDelegate.setApplicationLocales(localeList)
+    }
+
+    fun resetLocale() {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
     }
 
     fun getDisplayName(locale: Locale): String {

@@ -123,6 +123,24 @@ class HomeActivity : AppCompatActivity() {
         val locales = LocaleManager.getSupportedLocales(this)
         val currentLocaleTag = LocaleManager.getCurrentLocale(this).toLanguageTag()
 
+        // Add System Default Option
+        val systemRadioButton = MaterialRadioButton(this).apply {
+            text = getString(R.string.menu_system_default)
+            tag = null
+            id = android.view.View.generateViewId()
+            setTextColor(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorTextPrimary))
+            layoutParams = RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.MATCH_PARENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 8, 0, 8)
+            }
+        }
+        radioGroup.addView(systemRadioButton)
+        if (AppCompatDelegate.getApplicationLocales().isEmpty) {
+            radioGroup.check(systemRadioButton.id)
+        }
+
         locales.forEach { locale ->
             val code = locale.toLanguageTag()
             val name = LocaleManager.getDisplayName(locale)
@@ -146,18 +164,20 @@ class HomeActivity : AppCompatActivity() {
                             (code.substringBefore("-") == currentLocaleTag.substringBefore("-") &&
                              code.substringAfter("-", "") == currentLocaleTag.substringAfter("-", ""))
 
-            if (isCurrent) {
+            if (isCurrent && !AppCompatDelegate.getApplicationLocales().isEmpty) {
                 radioGroup.check(radioButton.id)
             }
         }
 
 
         val linkIcon = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_open_in_new)?.apply {
-            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            setBounds(0, 0, 40, 40)
             setTint(androidx.core.content.ContextCompat.getColor(this@HomeActivity, R.color.colorAccent))
         }
-        translateLink.setCompoundDrawables(null, null, linkIcon, null)
-        translateLink.compoundDrawablePadding = 8
+        val spannableTranslate = android.text.SpannableString(getString(R.string.dialog_language_translate_link) + "  ")
+        val translateImageSpan = android.text.style.ImageSpan(linkIcon!!, android.text.style.ImageSpan.ALIGN_BASELINE)
+        spannableTranslate.setSpan(translateImageSpan, spannableTranslate.length - 1, spannableTranslate.length, android.text.Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        translateLink.text = spannableTranslate
 
         translateLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_translate)))
@@ -179,6 +199,8 @@ class HomeActivity : AppCompatActivity() {
                     val selectedLocale = selectedRadio?.tag as? java.util.Locale
                     if (selectedLocale != null) {
                         LocaleManager.setLocale(selectedLocale)
+                    } else {
+                        LocaleManager.resetLocale()
                     }
                 }
                 dialog.dismiss()
