@@ -13,7 +13,7 @@ object LocaleManager {
     /**
      * Retrieves the supported locales for the application.
      * With AGP generateLocaleConfig = true, it automatically generates
-     * locales_config.xml at build time based on res/values-* folders.
+     * _generated_res_locale_config.xml at build time based on res/values-* folders.
      */
     fun getSupportedLocales(context: Context): List<Locale> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
