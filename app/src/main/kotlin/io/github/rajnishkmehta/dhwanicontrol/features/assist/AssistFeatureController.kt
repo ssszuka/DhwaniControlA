@@ -33,7 +33,7 @@ object AssistFeatureController : FeatureController {
     }
 
     override fun setEnabled(context: Context, enabled: Boolean) {
-        val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+        val intent = Intent(Settings.ACTION_VOICE_INPUT_SETTINGS)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         runCatching {
             context.startActivity(intent)
