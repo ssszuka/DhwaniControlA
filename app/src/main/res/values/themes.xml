@@ -11,7 +11,8 @@
         <item name="colorOnSurfaceVariant">@color/colorTextSecondary</item>
         <item name="colorError">@color/colorWarning</item>
         <item name="colorOnError">@color/colorBackground</item>
-        <item name="colorOutline">@color/colorSurfaceVariant</item>
+        <!-- For switches/components outline -->
+        <item name="colorOutline">@color/colorTextSecondary</item>
 
         <!-- System UI -->
         <item name="android:statusBarColor">@color/colorBackground</item>
