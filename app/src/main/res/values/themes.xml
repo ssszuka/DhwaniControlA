@@ -12,7 +12,7 @@
         <item name="colorError">@color/colorWarning</item>
         <item name="colorOnError">@color/colorBackground</item>
         <!-- For switches/components outline -->
-        <item name="colorOutline">@color/colorTextSecondary</item>
+        <item name="colorOutline">@color/colorTextMuted</item>
 
         <!-- System UI -->
         <item name="android:statusBarColor">@color/colorBackground</item>
